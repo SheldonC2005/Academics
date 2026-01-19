@@ -1,0 +1,162 @@
+<html>
+<head>
+    <title>Newspaper Article Layout</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .newspaper {
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .date {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .main-heading {
+            column-span: all;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .subheading {
+            column-span: all;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .article-content {
+            column-count: 3;
+            column-gap: 30px;
+            column-rule: 1px solid #ccc;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 15px;
+            break-inside: avoid;
+        }
+
+        .section-heading {
+            column-span: all;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .image-full {
+            column-span: all;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .image-full img {
+            width: 100%;
+            height: 300px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .caption {
+            column-span: all;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper">
+        <div class="header">
+            <h1>THE DAILY NEWS</h1>
+            <p class="date">Monday, January 19, 2026</p>
+        </div>
+
+        <div class="article-content">
+            <h2 class="main-heading">Technology Revolutionizes Modern Communication</h2>
+            
+            <p class="subheading">How digital innovation is transforming the way we connect with each other in the 21st century</p>
+
+            <p>
+                In an era where technology evolves at an unprecedented pace, the landscape of human communication has undergone a dramatic transformation. From the early days of telegraphs to today's instant messaging platforms, the journey has been remarkable and continues to shape our daily interactions.
+            </p>
+
+            <p>
+                Social media platforms have become the primary means of communication for billions of people worldwide. These digital spaces allow individuals to share their thoughts, experiences, and moments with friends and family across vast distances, breaking down geographical barriers that once limited human connection.
+            </p>
+
+            <p>
+                The rise of video conferencing technology has fundamentally changed how businesses operate. Remote work, once considered a luxury, has become commonplace, enabling companies to hire talent from anywhere in the world and reducing the need for physical office spaces.
+            </p>
+
+            <div class="image-full">
+                <div style="width: 100%; height: 300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                    Technology Conference 2026
+                </div>
+            </div>
+
+            <p class="caption">Annual technology summit showcasing latest innovations in digital communication</p>
+
+            <h3 class="section-heading">The Impact on Education</h3>
+
+            <p>
+                Educational institutions have embraced digital tools to enhance learning experiences. Online courses and virtual classrooms have made education more accessible than ever before, allowing students from remote areas to access quality education.
+            </p>
+
+            <p>
+                Interactive learning platforms utilize artificial intelligence to personalize education for each student. Teachers now have access to digital resources that make lessons more engaging and effective.
+            </p>
+
+            <h3 class="section-heading">Healthcare Innovation</h3>
+
+            <p>
+                Telemedicine has emerged as a game-changer in healthcare delivery. Patients can now consult with doctors remotely, reducing wait times and making healthcare more accessible.
+            </p>
+
+            <p>
+                Wearable technology monitors vital signs and health metrics in real-time. Mobile health applications empower individuals to take control of their wellness, tracking fitness goals and medication schedules.
+            </p>
+
+            <h3 class="section-heading">Looking to the Future</h3>
+
+            <p>
+                As we look ahead, emerging technologies promise to further transform how we communicate and interact with the world. These innovations will create new opportunities and challenges.
+            </p>
+
+            <p>
+                The key to harnessing these advances lies in ensuring equitable access and addressing privacy concerns. The challenge will be adapting to rapid changes while maintaining meaningful human connections.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

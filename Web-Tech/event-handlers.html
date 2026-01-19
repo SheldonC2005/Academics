@@ -1,0 +1,181 @@
+<html>
+<head>
+    <title>Event Handlers Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .section {
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .section h3 {
+            margin-top: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .hover-image {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .editable-text {
+            padding: 10px;
+            border: 2px solid #999;
+            min-height: 50px;
+        }
+
+        .log-container {
+            background-color: #f0f0f0;
+            border: 2px solid #333;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body onload="showWelcomeMessage()">
+    <h1>HTML Event Handlers Demo</h1>
+
+    <div class="section">
+        <h3>1. onclick - Change Background Color</h3>
+        <button onclick="changeBackgroundColor()">Click to Change Background Color</button>
+    </div>
+
+    <div class="section">
+        <h3>2. onmouseover / onmouseout - Hover Effect</h3>
+        <div class="hover-image" 
+             id="hoverImage"
+             onmouseover="changeImage()" 
+             onmouseout="resetImage()"
+             style="background-color: blue; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold;">
+            Hover Over Me
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>3. onload - Welcome Message</h3>
+        <p id="welcomeMessage"></p>
+    </div>
+
+    <div class="section">
+        <h3>4. onchange - Dropdown Selection</h3>
+        <select onchange="showSelection(this)">
+            <option value="">Select a color</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option value="Yellow">Yellow</option>
+        </select>
+        <p id="selectedValue"></p>
+    </div>
+    <div class="section">
+        <h3>5. onfocus / onblur - Input Field Border Color</h3>
+        <input type="text" 
+               placeholder="Click to focus" 
+               id="focusInput"
+               onfocus="changeBorderFocus()" 
+               onblur="changeBorderBlur()"
+               style="padding: 10px; width: 300px; border: 2px solid #ccc;">
+    </div>
+    <div class="section">
+        <h3>6. ondblclick - Double Click to Edit</h3>
+        <div class="editable-text" id="editableText" ondblclick="makeEditable()">
+            Double-click this text to edit it!
+        </div>
+    </div>
+    <div class="log-container">
+        <h3>Event Log</h3>
+        <div id="eventLog"></div>
+    </div>
+
+    <script>
+        function logEvent(eventName, description) {
+            const log = document.getElementById('eventLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${timestamp}] ${eventName}: ${description}`;
+            log.insertBefore(entry, log.firstChild);
+        }
+        const colors = ['#FFE4E1', '#E0FFE0', '#E0E0FF', '#FFFFE0', '#FFE0FF'];
+        let colorIndex = 0;
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = colors[colorIndex];
+            logEvent('onclick', `Background color changed to ${colors[colorIndex]}`);
+            colorIndex = (colorIndex + 1) % colors.length;
+        }
+        function changeImage() {
+            const hoverDiv = document.getElementById('hoverImage');
+            hoverDiv.style.backgroundColor = 'red';
+            hoverDiv.textContent = 'Mouse Over!';
+            logEvent('onmouseover', 'Color changed on mouse over');
+        }
+        function resetImage() {
+            const hoverDiv = document.getElementById('hoverImage');
+            hoverDiv.style.backgroundColor = 'blue';
+            hoverDiv.textContent = 'Hover Over Me';
+            logEvent('onmouseout', 'Color reset on mouse out');
+        }
+        function showWelcomeMessage() {
+            document.getElementById('welcomeMessage').textContent = 
+                'Welcome! This page loaded successfully at ' + new Date().toLocaleTimeString();
+            logEvent('onload', 'Page loaded and welcome message displayed');
+        }
+        function showSelection(select) {
+            const value = select.value;
+            document.getElementById('selectedValue').textContent = 
+                value ? `You selected: ${value}` : '';
+            logEvent('onchange', `Dropdown value changed to: ${value}`);
+        }
+        function changeBorderFocus() {
+            document.getElementById('focusInput').style.borderColor = 'green';
+            document.getElementById('focusInput').style.borderWidth = '3px';
+            logEvent('onfocus', 'Input field focused - border changed to green');
+        }
+
+        function changeBorderBlur() {
+            document.getElementById('focusInput').style.borderColor = '#ccc';
+            document.getElementById('focusInput').style.borderWidth = '2px';
+            logEvent('onblur', 'Input field blurred - border reset to default');
+        }
+
+        let isEditable = false;
+        function makeEditable() {
+            const textDiv = document.getElementById('editableText');
+            if (!isEditable) {
+                textDiv.contentEditable = true;
+                textDiv.style.backgroundColor = '#FFFFCC';
+                textDiv.style.cursor = 'text';
+                textDiv.focus();
+                logEvent('ondblclick', 'Text is now editable');
+                isEditable = true;
+            }
+        }
+    </script>
+</body>
+</html>

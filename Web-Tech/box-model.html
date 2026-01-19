@@ -1,0 +1,249 @@
+<html>
+<head>
+    <title>CSS3 Box Model & Borders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            box-sizing: border-box;
+            background-color: white;
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .card-1 {
+            border: 3px solid #3498db;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-2 {
+            border: 5px solid transparent;
+            border-radius: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            border-image: linear-gradient(45deg, red, blue, green, yellow) 1;
+        }
+
+        .card-3 {
+            border: 4px solid #e74c3c;
+            border-radius: 10px;
+            box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.25);
+            outline: 3px dashed #f39c12;
+            outline-offset: 5px;
+        }
+
+        .card-4 {
+            border: 2px solid #27ae60;
+            border-radius: 25px;
+            box-shadow: 0px 5px 25px rgba(39, 174, 96, 0.4);
+            outline: 2px solid #2ecc71;
+            outline-offset: -10px;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+
+        .description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .calculator {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .calculator h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .calculate-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+
+        .result p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS3 Box Model & Borders Demo</h1>
+
+    <div class="cards-grid">
+        <div class="card card-1">
+            <h3>Product 1: Laptop</h3>
+            <p class="price">$999.99</p>
+            <p class="description">
+                High-performance laptop with 16GB RAM. Features rounded corners with box-shadow for depth.
+            </p>
+        </div>
+
+        <div class="card card-2">
+            <h3>Product 2: Smartphone</h3>
+            <p class="price">$699.99</p>
+            <p class="description">
+                Latest smartphone with gradient border-image. Advanced camera and long battery life.
+            </p>
+        </div>
+
+        <div class="card card-3">
+            <h3>Product 3: Tablet</h3>
+            <p class="price">$449.99</p>
+            <p class="description">
+                Powerful tablet with multiple borders using outline. Perfect for work and entertainment.
+            </p>
+        </div>
+
+        <div class="card card-4">
+            <h3>Product 4: Smartwatch</h3>
+            <p class="price">$299.99</p>
+            <p class="description">
+                Fitness tracking smartwatch with inner outline. Water-resistant and GPS enabled.
+            </p>
+        </div>
+    </div>
+
+    <div class="calculator">
+        <h2>Box Model Dimension Calculator</h2>
+        <p style="text-align: center; color: #666;">Calculate total box dimensions including padding, border, and margin</p>
+
+        <div class="input-group">
+            <label>Content Width (px):</label>
+            <input type="number" id="width" value="200" min="0">
+        </div>
+
+        <div class="input-group">
+            <label>Content Height (px):</label>
+            <input type="number" id="height" value="150" min="0">
+        </div>
+
+        <div class="input-group">
+            <label>Padding (px):</label>
+            <input type="number" id="padding" value="20" min="0">
+        </div>
+
+        <div class="input-group">
+            <label>Border Width (px):</label>
+            <input type="number" id="border" value="5" min="0">
+        </div>
+
+        <div class="input-group">
+            <label>Margin (px):</label>
+            <input type="number" id="margin" value="10" min="0">
+        </div>
+
+        <button class="calculate-btn" onclick="calculateDimensions()">Calculate Dimensions</button>
+
+        <div class="result" id="result" style="display: none;">
+            <h3>Computed Dimensions:</h3>
+            <p><strong>Content Area:</strong> <span id="contentArea"></span></p>
+            <p><strong>Padding Box:</strong> <span id="paddingBox"></span></p>
+            <p><strong>Border Box:</strong> <span id="borderBox"></span></p>
+            <p><strong>Total Width (with margin):</strong> <span id="totalWidth"></span></p>
+            <p><strong>Total Height (with margin):</strong> <span id="totalHeight"></span></p>
+            <p><strong>Total Area:</strong> <span id="totalArea"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateDimensions() {
+            const width = parseInt(document.getElementById('width').value) || 0;
+            const height = parseInt(document.getElementById('height').value) || 0;
+            const padding = parseInt(document.getElementById('padding').value) || 0;
+            const border = parseInt(document.getElementById('border').value) || 0;
+            const margin = parseInt(document.getElementById('margin').value) || 0;
+
+            const paddingBoxWidth = width + (padding * 2);
+            const paddingBoxHeight = height + (padding * 2);
+
+            const borderBoxWidth = paddingBoxWidth + (border * 2);
+            const borderBoxHeight = paddingBoxHeight + (border * 2);
+
+            const totalWidth = borderBoxWidth + (margin * 2);
+            const totalHeight = borderBoxHeight + (margin * 2);
+
+            const totalArea = totalWidth * totalHeight;
+
+            document.getElementById('contentArea').textContent = width + 'px × ' + height + 'px';
+            document.getElementById('paddingBox').textContent = paddingBoxWidth + 'px × ' + paddingBoxHeight + 'px';
+            document.getElementById('borderBox').textContent = borderBoxWidth + 'px × ' + borderBoxHeight + 'px';
+            document.getElementById('totalWidth').textContent = totalWidth + 'px';
+            document.getElementById('totalHeight').textContent = totalHeight + 'px';
+            document.getElementById('totalArea').textContent = totalArea + 'px²';
+
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

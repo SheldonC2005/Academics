@@ -1,0 +1,209 @@
+<html>
+<head>
+    <title>Media Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .video-section, .audio-section {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        video {
+            width: 100%;
+            max-width: 640px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .video-controls, .audio-controls {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .time-display {
+            font-size: 18px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            vertical-align: middle;
+        }
+
+        .playlist {
+            margin-top: 20px;
+        }
+
+        .playlist-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .playlist-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .playlist-item.active {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Media Player</h1>
+
+    <!-- Video Section -->
+    <div class="video-section">
+        <h2>Video Player</h2>
+        <video id="videoPlayer">
+            <source src="C:/Users/sheld/Downloads/Telegram Desktop/Killers of the Flower Moon.mp4" type="video/mp4">
+            <source src="C:/Users/sheld/Downloads/Telegram Desktop/Killers of the Flower Moon.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="time-display">
+            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+        </div>
+
+        <div class="video-controls">
+            <button onclick="playVideo()">Play</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <label>Volume: </label>
+            <input type="range" id="volumeControl" min="0" max="100" value="100" onchange="changeVolume()">
+        </div>
+    </div>
+
+    <!-- Audio Section -->
+    <div class="audio-section">
+        <h2>Audio Player</h2>
+        <audio id="audioPlayer" controls>
+            <source src="C:/Users/sheld/Downloads/Telegram Desktop/1.mp3" type="audio/mpeg">
+            <source src="C:/Users/sheld/Downloads/Telegram Desktop/1.ogg" type="audio/ogg">
+            <source src="C:/Users/sheld/Downloads/Telegram Desktop/1.wav" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+
+        <h3>Playlist</h3>
+        <div class="playlist">
+            <div class="playlist-item active" onclick="loadSong(0)">
+                1. Sticks and Stonez - J Cole
+            </div>
+            <div class="playlist-item" onclick="loadSong(1)">
+                2. Let.go.my.hand - J Cole
+            </div>
+            <div class="playlist-item" onclick="loadSong(2)">
+                3. My Life - The Neptunes
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const audio = document.getElementById('audioPlayer');
+        
+        // Playlist songs
+        const playlist = [
+            {
+                title: 'Song One - Artist Name',
+                mp3: 'C:/Users/sheld/Downloads/Telegram Desktop/1.mp3',
+                ogg: 'C:/Users/sheld/Downloads/Telegram Desktop/1.ogg',
+                wav: 'C:/Users/sheld/Downloads/Telegram Desktop/1.wav'
+            },
+            {
+                title: 'Song Two - Artist Name',
+                mp3: 'C:/Users/sheld/Downloads/Telegram Desktop/2.mp3',
+                ogg: 'C:/Users/sheld/Downloads/Telegram Desktop/2.ogg',
+                wav: 'C:/Users/sheld/Downloads/Telegram Desktop/2.wav'
+            },
+            {
+                title: 'Song Three - Artist Name',
+                mp3: 'C:/Users/sheld/Downloads/Telegram Desktop/3.mp3',
+                ogg: 'C:/Users/sheld/Downloads/Telegram Desktop/3.ogg',
+                wav: 'C:/Users/sheld/Downloads/Telegram Desktop/3.wav'
+            }
+        ];
+
+        // Video Controls
+        function playVideo() {
+            video.play();
+        }
+
+        function pauseVideo() {
+            video.pause();
+        }
+
+        function changeVolume() {
+            const volume = document.getElementById('volumeControl').value;
+            video.volume = volume / 100;
+        }
+
+        // Update video time display
+        video.addEventListener('timeupdate', function() {
+            document.getElementById('currentTime').textContent = formatTime(video.currentTime);
+        });
+
+        video.addEventListener('loadedmetadata', function() {
+            document.getElementById('duration').textContent = formatTime(video.duration);
+        });
+
+        // Format time in minutes:seconds
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        // Load song from playlist
+        function loadSong(index) {
+            const song = playlist[index];
+            
+            // Update audio sources
+            audio.innerHTML = `
+                <source src="${song.mp3}" type="audio/mpeg">
+                <source src="${song.ogg}" type="audio/ogg">
+                <source src="${song.wav}" type="audio/wav">
+            `;
+            
+            // Reload and play
+            audio.load();
+            audio.play();
+            
+            // Update active playlist item
+            const items = document.querySelectorAll('.playlist-item');
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
