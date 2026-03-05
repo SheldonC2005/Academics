@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Average</title>
+    <style>
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Quiz Average</h1>
+    
+    <div style="width: 600px; margin: 0 auto;">
+        <button onclick="calculateStatistics()">Calculate Statistics</button><br><br>
+
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead id="tableHeader">
+                <tr>
+                    <th>Student Name</th>
+                    <th>Quiz Score</th>
+                </tr>
+            </thead>
+            <tbody id="studentData">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var students = [
+            { name: "Alice Johnson", score: 85 },
+            { name: "Bob Smith", score: 92 },
+            { name: "Charlie Brown", score: 78 },
+            { name: "Diana Prince", score: 95 },
+            { name: "Edward Norton", score: 88 },
+            { name: "Fiona Green", score: 72 },
+            { name: "George Wilson", score: 90 },
+            { name: "Hannah Miller", score: 83 },
+            { name: "Ian Davis", score: 79 },
+            { name: "Julia Roberts", score: 91 }
+        ];
+
+        function getGrade(score) {
+            if (score >= 90) return 'A';
+            else if (score >= 80) return 'B';
+            else if (score >= 70) return 'C';
+            else if (score >= 60) return 'D';
+            else return 'F';
+        }
+
+        function displayStudents() {
+            var tableBody = document.getElementById('studentData');
+            var html = '';
+            
+            for (var i = 0; i < students.length; i++) {
+                html += '<tr>';
+                html += '<td>' + students[i].name + '</td>';
+                html += '<td>' + students[i].score + '</td>';
+                html += '</tr>';
+            }
+            
+            tableBody.innerHTML = html;
+        }
+
+        function calculateStatistics() {
+            var total = 0;
+            var highest = students[0].score;
+            var lowest = students[0].score;
+            var message = 'Student Grades:\n\n';
+            
+            for (var i = 0; i < students.length; i++) {
+                var score = students[i].score;
+                var grade = getGrade(score);
+                total += score;
+                
+                if (score > highest) {
+                    highest = score;
+                }
+                
+                if (score < lowest) {
+                    lowest = score;
+                }
+                
+                message += students[i].name + ': ' + grade + '\n';
+            }
+            
+            var average = total / students.length;
+            
+            message += '\nClass Statistics:\n';
+            message += 'Class Average: ' + average.toFixed(2) + '\n';
+            message += 'Highest Score: ' + highest + '\n';
+            message += 'Lowest Score: ' + lowest;
+            
+            alert(message);
+        }
+
+        displayStudents();
+    </script>
+</body>
+</html>

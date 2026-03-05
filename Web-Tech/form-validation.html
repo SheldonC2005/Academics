@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation using jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Form Validation with jQuery</h1>
+    
+    <form id="registrationForm" style="border: 1px solid black; padding: 20px; width: 400px; margin: 0 auto;">
+        <label>Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <span class="error-message" id="nameError"></span><br><br>
+
+        <label>Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <span class="error-message" id="emailError"></span><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <span class="error-message" id="passwordError"></span><br><br>
+
+        <label>Phone:</label><br>
+        <input type="text" id="phone" name="phone"><br>
+        <span class="error-message" id="phoneError"></span><br><br>
+
+        <label>Age:</label><br>
+        <input type="text" id="age" name="age"><br>
+        <span class="error-message" id="ageError"></span><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="successMessage" style="display: none; color: green; text-align: center; margin-top: 20px;">
+        Form submitted successfully!
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            function validateName() {
+                var name = $('#name').val().trim();
+                if (name === '') {
+                    $('#nameError').text('Name is required').show();
+                    return false;
+                } else if (name.length < 2) {
+                    $('#nameError').text('Name must be at least 2 characters').show();
+                    return false;
+                } else {
+                    $('#nameError').hide();
+                    return true;
+                }
+            }
+
+            function validateEmail() {
+                var email = $('#email').val().trim();
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email === '') {
+                    $('#emailError').text('Email is required').show();
+                    return false;
+                } else if (!emailPattern.test(email)) {
+                    $('#emailError').text('Please enter a valid email address').show();
+                    return false;
+                } else {
+                    $('#emailError').hide();
+                    return true;
+                }
+            }
+
+            function validatePassword() {
+                var password = $('#password').val();
+                if (password === '') {
+                    $('#passwordError').text('Password is required').show();
+                    return false;
+                } else if (password.length < 8) {
+                    $('#passwordError').text('Password must be at least 8 characters').show();
+                    return false;
+                } else {
+                    $('#passwordError').hide();
+                    return true;
+                }
+            }
+
+            function validatePhone() {
+                var phone = $('#phone').val().trim();
+                var phonePattern = /^[0-9]{10}$/;
+                if (phone === '') {
+                    $('#phoneError').text('Phone number is required').show();
+                    return false;
+                } else if (!phonePattern.test(phone)) {
+                    $('#phoneError').text('Phone must be 10 digits').show();
+                    return false;
+                } else {
+                    $('#phoneError').hide();
+                    return true;
+                }
+            }
+
+            function validateAge() {
+                var age = $('#age').val().trim();
+                if (age === '') {
+                    $('#ageError').text('Age is required').show();
+                    return false;
+                } else if (isNaN(age) || age < 1 || age > 120) {
+                    $('#ageError').text('Please enter a valid age (1-120)').show();
+                    return false;
+                } else {
+                    $('#ageError').hide();
+                    return true;
+                }
+            }
+
+            $('#name').blur(validateName);
+            $('#email').blur(validateEmail);
+            $('#password').blur(validatePassword);
+            $('#phone').blur(validatePhone);
+            $('#age').blur(validateAge);
+
+            $('#registrationForm').submit(function(e) {
+                e.preventDefault();
+
+                var isNameValid = validateName();
+                var isEmailValid = validateEmail();
+                var isPasswordValid = validatePassword();
+                var isPhoneValid = validatePhone();
+                var isAgeValid = validateAge();
+
+                if (isNameValid && isEmailValid && isPasswordValid && isPhoneValid && isAgeValid) {
+                    $('#successMessage').show();
+                    $('#registrationForm')[0].reset();
+                    $('.error-message').hide();
+                    setTimeout(function() {
+                        $('#successMessage').hide();
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
