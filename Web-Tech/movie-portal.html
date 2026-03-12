@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Review Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .section {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .slideshow {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .slide {
+            width: 400px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .clock {
+            font-size: 32px;
+            text-align: center;
+            font-weight: bold;
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .poll-option {
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .quiz-question {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        #quizResult, #pollResult {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Review Portal</h1>
+
+    <!-- Digital Clock -->
+    <div class="section">
+        <h2>Digital Clock</h2>
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Vowel & Consonant Count -->
+    <div class="section">
+        <h2>Vowels &amp; Consonants in Movie Titles</h2>
+        <table>
+            <tr>
+                <th>Movie Title</th>
+                <th>Vowels</th>
+                <th>Consonants</th>
+            </tr>
+            <tbody id="vowelTable"></tbody>
+        </table>
+    </div>
+
+    <!-- Movie Poster Slideshow -->
+    <div class="section">
+        <h2>Movie Poster Slideshow</h2>
+        <div class="slideshow">
+            <div class="slide" id="slideBox"></div>
+            <br>
+            <button onclick="prevSlide()">Previous</button>
+            <button onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <!-- Survey Poll -->
+    <div class="section">
+        <h2>Vote for Your Favourite Movie</h2>
+        <div id="pollSection"></div>
+        <div style="text-align: center;">
+            <button onclick="submitVote()">Vote</button>
+        </div>
+        <p id="pollResult"></p>
+    </div>
+
+    <!-- Movie Quiz -->
+    <div class="section">
+        <h2>Movie Quiz</h2>
+        <div id="quizSection"></div>
+        <div style="text-align: center;">
+            <button onclick="submitQuiz()">Submit Quiz</button>
+        </div>
+        <p id="quizResult"></p>
+    </div>
+
+    <script>
+        var movies = [
+            { title: 'Inception', color: '#3498db' },
+            { title: 'Titanic', color: '#e74c3c' },
+            { title: 'Avatar', color: '#27ae60' },
+            { title: 'Interstellar', color: '#8e44ad' },
+            { title: 'The Dark Knight', color: '#2c3e50' }
+        ];
+
+        // --- Vowel & Consonant Counter using Regular Expressions ---
+        var vowelTableBody = document.getElementById('vowelTable');
+        movies.forEach(function(movie) {
+            var title = movie.title;
+            var vowels = (title.match(/[aeiou]/gi) || []).length;
+            var consonants = (title.match(/[bcdfghjklmnpqrstvwxyz]/gi) || []).length;
+            var row = '<tr><td>' + title + '</td><td>' + vowels + '</td><td>' + consonants + '</td></tr>';
+            vowelTableBody.innerHTML += row;
+        });
+
+        // --- Movie Poster Slideshow ---
+        var currentSlide = 0;
+
+        function showSlide(index) {
+            var slide = document.getElementById('slideBox');
+            slide.style.backgroundColor = movies[index].color;
+            slide.textContent = movies[index].title;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % movies.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + movies.length) % movies.length;
+            showSlide(currentSlide);
+        }
+
+        showSlide(0);
+
+        // --- Digital Clock ---
+        function updateClock() {
+            var now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- Survey Poll ---
+        var votes = {};
+        var pollHTML = '';
+        movies.forEach(function(movie) {
+            votes[movie.title] = 0;
+            pollHTML += '<div class="poll-option"><input type="radio" name="poll" value="' +
+                movie.title + '"> ' + movie.title + '</div>';
+        });
+        document.getElementById('pollSection').innerHTML = pollHTML;
+
+        function submitVote() {
+            var selected = document.querySelector('input[name="poll"]:checked');
+            if (selected) {
+                votes[selected.value]++;
+                var result = '<b>Poll Results:</b><br>';
+                for (var title in votes) {
+                    result += title + ': ' + votes[title] + ' vote(s)<br>';
+                }
+                document.getElementById('pollResult').innerHTML = result;
+            } else {
+                document.getElementById('pollResult').textContent = 'Please select a movie to vote.';
+            }
+        }
+
+        // --- Movie Quiz ---
+        var quizQuestions = [
+            {
+                question: 'In which year was "Inception" released?',
+                options: ['2008', '2010', '2012', '2014'],
+                answer: '2010'
+            },
+            {
+                question: 'Who directed "Titanic"?',
+                options: ['Steven Spielberg', 'James Cameron', 'Christopher Nolan', 'Martin Scorsese'],
+                answer: 'James Cameron'
+            },
+            {
+                question: 'What is the fictional planet in "Avatar"?',
+                options: ['Krypton', 'Pandora', 'Tatooine', 'Asgard'],
+                answer: 'Pandora'
+            },
+            {
+                question: 'Who composed the soundtrack for "Interstellar"?',
+                options: ['John Williams', 'Hans Zimmer', 'Howard Shore', 'Alan Silvestri'],
+                answer: 'Hans Zimmer'
+            },
+            {
+                question: 'Who played the Joker in "The Dark Knight"?',
+                options: ['Jack Nicholson', 'Jared Leto', 'Heath Ledger', 'Joaquin Phoenix'],
+                answer: 'Heath Ledger'
+            }
+        ];
+
+        var quizHTML = '';
+        quizQuestions.forEach(function(q, i) {
+            quizHTML += '<div class="quiz-question"><p><b>' + (i + 1) + '. ' + q.question + '</b></p>';
+            q.options.forEach(function(opt) {
+                quizHTML += '<input type="radio" name="q' + i + '" value="' + opt + '"> ' + opt + '<br>';
+            });
+            quizHTML += '</div>';
+        });
+        document.getElementById('quizSection').innerHTML = quizHTML;
+
+        function submitQuiz() {
+            var score = 0;
+            quizQuestions.forEach(function(q, i) {
+                var selected = document.querySelector('input[name="q' + i + '"]:checked');
+                if (selected && selected.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('quizResult').textContent =
+                'You scored ' + score + ' out of ' + quizQuestions.length + '!';
+        }
+    </script>
+</body>
+</html>

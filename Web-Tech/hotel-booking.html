@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Booking</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            border: 1px solid black;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hotel Room Booking</h1>
+
+    <form id="bookingForm">
+        <label>Full Name:</label><br>
+        <input type="text" id="name"><br>
+        <span class="error-message" id="nameError"></span><br>
+
+        <label>Contact Number:</label><br>
+        <input type="text" id="phone"><br>
+        <span class="error-message" id="phoneError"></span><br>
+
+        <label>City:</label><br>
+        <input type="text" id="city" list="cityList" placeholder="Type to search city"><br>
+        <datalist id="cityList"></datalist>
+        <span class="error-message" id="cityError"></span><br>
+
+        <button type="submit">Book Now</button>
+    </form>
+
+    <p class="success-message" id="successMsg">Booking submitted successfully!</p>
+
+    <script>
+        $(document).ready(function() {
+            // Load cities from JSON and populate datalist
+            $.getJSON('cities.json', function(data) {
+                var cityList = $('#cityList');
+                data.cities.forEach(function(city) {
+                    cityList.append('<option value="' + city + '">');
+                });
+            });
+
+            $('#bookingForm').submit(function(e) {
+                e.preventDefault();
+                var valid = true;
+
+                var name = $('#name').val().trim();
+                if (name === '') {
+                    $('#nameError').text('Name is required').show();
+                    valid = false;
+                } else {
+                    $('#nameError').hide();
+                }
+
+                var phone = $('#phone').val().trim();
+                if (phone === '') {
+                    $('#phoneError').text('Contact number is required').show();
+                    valid = false;
+                } else if (!/^[0-9]{10}$/.test(phone)) {
+                    $('#phoneError').text('Contact number must be exactly 10 digits').show();
+                    valid = false;
+                } else {
+                    $('#phoneError').hide();
+                }
+
+                var city = $('#city').val().trim();
+                if (city === '') {
+                    $('#cityError').text('City is required').show();
+                    valid = false;
+                } else {
+                    $('#cityError').hide();
+                }
+
+                if (valid) {
+                    $('#successMsg').show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

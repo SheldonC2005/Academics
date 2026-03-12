@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .task-input {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .task-input input {
+            padding: 10px;
+            width: 300px;
+        }
+
+        .task-input button {
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .task-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .task-buttons button {
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .done-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body ng-app="taskApp" ng-controller="TaskController">
+    <h1>Daily Task List</h1>
+
+    <div class="task-input">
+        <input type="text" ng-model="newTask" placeholder="Enter a task" ng-keypress="addOnEnter($event)">
+        <button ng-click="addTask()">Add Task</button>
+    </div>
+
+    <div ng-repeat="task in tasks" class="task-item">
+        <span ng-class="{completed: task.done}" ng-click="toggleTask(task)" style="cursor: pointer;">
+            {{task.name}}
+        </span>
+        <div class="task-buttons">
+            <button class="done-btn" ng-click="toggleTask(task)">{{task.done ? 'Undo' : 'Done'}}</button>
+            <button class="delete-btn" ng-click="deleteTask($index)">Delete</button>
+        </div>
+    </div>
+
+    <p ng-show="tasks.length === 0" style="text-align: center; color: #999;">No tasks added yet.</p>
+
+    <script>
+        var app = angular.module('taskApp', []);
+
+        app.controller('TaskController', function($scope) {
+            $scope.tasks = [];
+            $scope.newTask = '';
+
+            $scope.addTask = function() {
+                if ($scope.newTask.trim() !== '') {
+                    $scope.tasks.push({ name: $scope.newTask.trim(), done: false });
+                    $scope.newTask = '';
+                }
+            };
+
+            $scope.toggleTask = function(task) {
+                task.done = !task.done;
+            };
+
+            $scope.deleteTask = function(index) {
+                $scope.tasks.splice(index, 1);
+            };
+
+            $scope.addOnEnter = function(event) {
+                if (event.keyCode === 13) {
+                    $scope.addTask();
+                }
+            };
+        });
+    </script>
+</body>
+</html>

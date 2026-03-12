@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flavour House Restaurant</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="restaurant-styles.css">
+    <!-- Internal CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlighted-menu {
+            border: 6px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .food-image-container {
+            background-color: #f5e6ca;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #foodImage {
+            width: 300px;
+            height: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Flavour House</h1>
+        <p>Mumbai | Delhi</p>
+    </header>
+
+    <div class="section">
+        <h2>Our Menu Categories</h2>
+        <ul>
+            <li><b>Starters</b> &mdash; Spring Rolls, Soup, Bruschetta</li>
+            <li><b>Main Course</b> &mdash; Biryani, Pasta, Grilled Chicken</li>
+            <li><b>Desserts</b> &mdash; Gulab Jamun, Ice Cream, Brownie</li>
+        </ul>
+    </div>
+
+    <!-- Inline CSS on the background container -->
+    <div class="food-image-container" style="border-radius: 10px;">
+        <h2>Featured Dish</h2>
+        <img id="foodImage"
+             src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop"
+             alt="Featured Dish"
+             style="border: 2px solid #333; border-radius: 5px;">
+        <br><br>
+        <button onclick="restaurant.zoomIn()">Zoom In</button>
+        <button onclick="restaurant.zoomOut()">Zoom Out</button>
+    </div>
+
+    <div class="highlighted-menu">
+        <h2>Special Offers</h2>
+        <!-- Inline CSS on promotional text -->
+        <p id="promoText" style="font-size: 20px; color: #e74c3c; font-weight: bold; text-align: center;">
+            Today's Special Offer: 20% Off on All Starters!
+        </p>
+        <div style="text-align: center;">
+            <button onclick="restaurant.changePromo()">Change Offer</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Weekly Menu Schedule</h2>
+        <table class="menu-table">
+            <tr>
+                <th>Day</th>
+                <th>Starter</th>
+                <th>Main Course</th>
+                <th>Dessert</th>
+            </tr>
+            <tr class="past-item">
+                <td>Monday</td>
+                <td>Spring Rolls</td>
+                <td>Butter Chicken</td>
+                <td>Gulab Jamun</td>
+            </tr>
+            <tr class="past-item">
+                <td>Tuesday</td>
+                <td>Soup</td>
+                <td>Biryani</td>
+                <td>Ice Cream</td>
+            </tr>
+            <tr class="past-item">
+                <td>Wednesday</td>
+                <td>Bruschetta</td>
+                <td>Pasta</td>
+                <td>Brownie</td>
+            </tr>
+            <tr>
+                <td><b>Thursday (Today)</b></td>
+                <td>Paneer Tikka</td>
+                <td>Dal Makhani</td>
+                <td>Rasmalai</td>
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td>Samosa</td>
+                <td>Fish Curry</td>
+                <td>Kheer</td>
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td>Pakora</td>
+                <td>Grilled Chicken</td>
+                <td>Fruit Salad</td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td>Kebab</td>
+                <td>Mutton Rogan Josh</td>
+                <td>Gajar Halwa</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Decorative Canvas</h2>
+        <canvas id="decorCanvas" width="400" height="200"></canvas>
+    </div>
+
+    <footer>
+        <p>Flavour House &copy; 2026 &mdash; Mumbai | Delhi</p>
+    </footer>
+
+    <script>
+        // OOP style JavaScript for menu interactions
+        class Restaurant {
+            constructor() {
+                this.imageScale = 1;
+                this.promos = [
+                    "Today's Special Offer: 20% Off on All Starters!",
+                    "Buy 1 Get 1 Free on Main Course!",
+                    "Free Dessert with Every Family Meal!",
+                    "Happy Hours: 50% Off Beverages (4-6 PM)!"
+                ];
+                this.promoIndex = 0;
+            }
+
+            changePromo() {
+                this.promoIndex = (this.promoIndex + 1) % this.promos.length;
+                document.getElementById('promoText').textContent = this.promos[this.promoIndex];
+            }
+
+            zoomIn() {
+                this.imageScale += 0.2;
+                var img = document.getElementById('foodImage');
+                img.style.width = (300 * this.imageScale) + 'px';
+                img.style.height = (200 * this.imageScale) + 'px';
+            }
+
+            zoomOut() {
+                if (this.imageScale > 0.4) {
+                    this.imageScale -= 0.2;
+                    var img = document.getElementById('foodImage');
+                    img.style.width = (300 * this.imageScale) + 'px';
+                    img.style.height = (200 * this.imageScale) + 'px';
+                }
+            }
+        }
+
+        var restaurant = new Restaurant();
+
+        // Canvas decorative graphics
+        function draw_on_canvas() {
+            var canvas = document.getElementById('decorCanvas');
+            var ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#f5e6ca';
+            ctx.fillRect(0, 0, 400, 200);
+
+            var colors = ['#e74c3c', '#f39c12', '#27ae60', '#3498db', '#9b59b6'];
+            for (var i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.arc(50 + i * 80, 60, 30, 0, Math.PI * 2);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+            }
+
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(20, 120);
+            ctx.lineTo(380, 120);
+            ctx.stroke();
+
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '18px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Flavour House - Bon Appetit!', 200, 160);
+        }
+
+        draw_on_canvas();
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workshop Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            border: 1px solid black;
+            padding: 20px;
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registration Form</h1>
+
+    <form>
+        <label for="name"><b>Full Name:</b></label><br>
+        <input type="text" id="name" placeholder="Enter your full name" required><br><br>
+
+        <label for="institution"><b>Institution:</b></label><br>
+        <input type="text" id="institution" placeholder="Enter your institution" required><br><br>
+
+        <label for="email"><b>Email:</b></label><br>
+        <input type="email" id="email" placeholder="Enter your email" required><br><br>
+
+        <label for="age"><b>Age:</b></label><br>
+        <input type="number" id="age" min="10" max="80" placeholder="Enter your age" required><br><br>
+
+        <label><b>Role:</b></label><br>
+        <input type="radio" name="role" value="student"> Student
+        <input type="radio" name="role" value="faculty"> Faculty
+        <input type="radio" name="role" value="professional"> Professional<br><br>
+
+        <label><b>Technologies Known:</b></label><br>
+        <input type="checkbox" name="tech" value="html"> HTML
+        <input type="checkbox" name="tech" value="css"> CSS
+        <input type="checkbox" name="tech" value="javascript"> JavaScript
+        <input type="checkbox" name="tech" value="python"> Python<br><br>
+
+        <label for="batch"><b>Workshop Batch Timing:</b></label><br>
+        <select id="batch">
+            <option value="">Select a batch</option>
+            <option value="morning">Morning (9 AM &ndash; 12 PM)</option>
+            <option value="afternoon">Afternoon (1 PM &ndash; 4 PM)</option>
+            <option value="evening">Evening (5 PM &ndash; 8 PM)</option>
+        </select><br><br>
+
+        <label for="date"><b>Preferred Workshop Date:</b></label><br>
+        <input type="date" id="date" required><br><br>
+
+        <label for="expectations"><b>Expectations from Workshop:</b></label><br>
+        <textarea id="expectations" rows="4" cols="50" placeholder="Enter your expectations"></textarea><br><br>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+</body>
+</html>
