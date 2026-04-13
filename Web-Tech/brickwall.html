@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Brick Wall Canvas</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+        img {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Featured Product</h2>
+
+<canvas id="myCanvas" width="400" height="300"></canvas>
+
+<!-- Product Image -->
+<img src="https://via.placeholder.com/200" alt="Product">
+
+<script>
+function draw_on_canvas() {
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+
+    let brickWidth = 50;
+    let brickHeight = 25;
+
+    for (let y = 0; y < canvas.height; y += brickHeight) {
+        for (let x = 0; x < canvas.width; x += brickWidth) {
+
+            // Offset every alternate row
+            let offset = (y / brickHeight) % 2 === 0 ? 0 : brickWidth / 2;
+
+            ctx.fillStyle = "#b22222"; // brick color
+            ctx.fillRect(x + offset, y, brickWidth, brickHeight);
+
+            ctx.strokeStyle = "white"; // mortar lines
+            ctx.strokeRect(x + offset, y, brickWidth, brickHeight);
+        }
+    }
+}
+
+// Call function
+draw_on_canvas();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retail Brand</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+        }
+
+        .box {
+            border: 6px solid black;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        img {
+            width: 200px;
+            transition: 0.3s;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px;
+        }
+    </style>
+
+    <script>
+        function changeText(branch) {
+            let text = document.getElementById("content");
+
+            if (branch === "india") {
+                text.innerHTML = "Welcome to our India branch! We offer local products and great deals.";
+            } else {
+                text.innerHTML = "Welcome to our USA branch! Explore premium collections and offers.";
+            }
+        }
+
+        function enlargeImage() {
+            let img = document.getElementById("product");
+            img.style.width = (img.clientWidth + 20) + "px";
+        }
+
+        function shrinkImage() {
+            let img = document.getElementById("product");
+            img.style.width = (img.clientWidth - 20) + "px";
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h1>Global Retail Brand</h1>
+
+    <div class="box">
+        <p id="content">Welcome! Choose a branch to view details.</p>
+        <p>We provide quality products worldwide with exciting offers.</p>
+    </div>
+
+    <!-- Buttons to change text -->
+    <button onclick="changeText('india')">India Branch</button>
+    <button onclick="changeText('usa')">USA Branch</button>
+
+    <br><br>
+
+    <!-- Image -->
+    <img id="product" src="https://via.placeholder.com/200" alt="Product">
+
+    <br>
+
+    <!-- Image control buttons -->
+    <button onclick="enlargeImage()">Enlarge</button>
+    <button onclick="shrinkImage()">Shrink</button>
+
+</body>
+</html>

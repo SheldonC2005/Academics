@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart City Portal</title>
+
+    <!-- jQuery + jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        /* Popup style */
+        #loginBox {
+            display: none;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            border: 2px solid black;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input {
+            width: 100%;
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Smart City Portal</h2>
+
+<!-- Login Popup -->
+<div id="loginBox">
+    <h3>Login</h3>
+
+    Email:
+    <input type="text" id="email"><br>
+
+    Zip Code:
+    <input type="text" id="zip"><br>
+
+    City:
+    <input type="text" id="city"><br>
+
+    Captcha: <b id="captchaText"></b><br>
+    Enter Captcha:
+    <input type="text" id="captchaInput"><br>
+
+    <button id="loginBtn">Login</button>
+</div>
+
+<script>
+$(document).ready(function() {
+
+    /* Show popup after 3 seconds */
+    setTimeout(function() {
+        $("#loginBox").fadeIn();
+    }, 3000);
+
+    /* Generate simple captcha */
+    let captcha = Math.floor(1000 + Math.random() * 9000);
+    $("#captchaText").text(captcha);
+
+    /* Load cities JSON for autocomplete */
+    $.getJSON("cities.json", function(data) {
+        $("#city").autocomplete({
+            source: data
+        });
+    });
+
+    /* Validation */
+    $("#loginBtn").click(function() {
+
+        let email = $("#email").val();
+        let zip = $("#zip").val();
+        let captchaInput = $("#captchaInput").val();
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let zipPattern = /^[0-9]{5}$/;
+
+        if(email === "" || zip === "" || $("#city").val() === "" || captchaInput === "") {
+            alert("All fields are required!");
+            return;
+        }
+
+        if(!emailPattern.test(email)) {
+            alert("Invalid Email!");
+            return;
+        }
+
+        if(!zipPattern.test(zip)) {
+            alert("Zip code must be 5 digits!");
+            return;
+        }
+
+        if(captchaInput != captcha) {
+            alert("Wrong Captcha!");
+            return;
+        }
+
+        alert("Login Successful!");
+    });
+
+});
+</script>
+
+</body>
+</html>

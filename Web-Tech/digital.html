@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Toolkit Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+        }
+        img {
+            width: 300px;
+            height: 200px;
+        }
+        textarea {
+            width: 300px;
+            height: 80px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h2>Digital Toolkit Dashboard</h2>
+
+<!-- Live Clock -->
+<h3 id="clock"></h3>
+
+<!-- Slideshow -->
+<h3>Campus Life</h3>
+<img id="slide" src="https://via.placeholder.com/300x200">
+<br>
+<button onclick="prevSlide()">Previous</button>
+<button onclick="nextSlide()">Next</button>
+
+<br><br>
+
+<!-- Text Processing -->
+<h3>Text Analyzer</h3>
+<textarea id="textInput" placeholder="Enter words..."></textarea><br>
+<button onclick="analyzeText()">Analyze</button>
+
+<p id="result"></p>
+
+<script>
+/* CLOCK */
+function updateClock() {
+    let now = new Date();
+    let time = now.toLocaleTimeString();
+    document.getElementById("clock").innerHTML = time;
+}
+setInterval(updateClock, 1000);
+
+/* SLIDESHOW */
+let images = [
+    "https://via.placeholder.com/300x200?text=Campus+1",
+    "https://via.placeholder.com/300x200?text=Campus+2",
+    "https://via.placeholder.com/300x200?text=Campus+3"
+];
+let index = 0;
+
+function showSlide() {
+    document.getElementById("slide").src = images[index];
+}
+
+// Auto change
+setInterval(function() {
+    index = (index + 1) % images.length;
+    showSlide();
+}, 3000);
+
+function nextSlide() {
+    index = (index + 1) % images.length;
+    showSlide();
+}
+
+function prevSlide() {
+    index = (index - 1 + images.length) % images.length;
+    showSlide();
+}
+
+/* TEXT ANALYZER */
+function analyzeText() {
+    let text = document.getElementById("textInput").value;
+    let words = text.split(/\s+/);
+    let result = "";
+
+    words.forEach(function(word) {
+        let vowels = (word.match(/[aeiou]/gi) || []).length;
+        let consonants = (word.match(/[bcdfghjklmnpqrstvwxyz]/gi) || []).length;
+
+        if(word !== "") {
+            result += word + " → Vowels: " + vowels + ", Consonants: " + consonants + "<br>";
+        }
+    });
+
+    document.getElementById("result").innerHTML = result;
+}
+</script>
+
+</body>
+</html>
